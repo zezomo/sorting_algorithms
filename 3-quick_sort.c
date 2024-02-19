@@ -1,7 +1,7 @@
 #include "sort.h"
 
 /**
- * lomuto_partition - Partitions the array using the Lomuto partition
+ * lomuto_partition - Partitions the array using the Lomuto partition scheme
  * @array: The array to be partitioned
  * @low: The low index of the partition
  * @high: The high index of the partition
@@ -55,7 +55,7 @@ void quicksort(int *array, ssize_t low, ssize_t high, size_t size)
 }
 
 /**
- * quick_sort - Sorts an array of integers in ascending order using Quick sort
+ * quick_sort - Sorts an array of integers in ascending order using Q
  * @array: The array to be sorted
  * @size: The size of the array
  */
@@ -63,7 +63,6 @@ void quick_sort(int *array, size_t size)
 {
 	if (array == NULL || size <= 1)
 		return;
-
 	quicksort(array, 0, size - 1, size);
 }
 
