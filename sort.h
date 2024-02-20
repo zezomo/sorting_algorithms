@@ -37,5 +37,8 @@ void quick_sort(int *array, size_t size);
 void cocktail_sort_list(listint_t **list);
 void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2);
 
+void merge_sort(int *array, size_t size);
+void merge(int *array, size_t l, size_t m, size_t r);
+
 
 #endif
