@@ -35,33 +35,33 @@ void merge_sort(int *array, size_t size)
 }
 
 /**
- * merge_arrays - Merges two sorted arrays into one sorted array
+ * merge_arrays - Merges two sorted arrays into one sorted
  * @array: Pointer to the resulting array
- * @left: Pointer to the left array
- * @left_size: Size of the left array
- * @right: Pointer to the right array
- * @right_size: Size of the right array
+ * @l: Pointer to the left array
+ * @left_s: Size of the left array
+ * @r: Pointer to the right array
+ * @right_s: Size of the right array
  */
-void merge_arrays(int *array, int *left, size_t left_size, int *right, size_t right_size)
+void merge_arrays(int *array, int *l, size_t left_s, int *r, size_t right_s)
 {
 	size_t i = 0, j = 0, k = 0;
-	int *temp_array = malloc((left_size + right_size) * sizeof(int));
+	int *temp_array = malloc((left_s + right_s) * sizeof(int));
 
-	while (i < left_size && j < right_size)
+	while (i < left_s && j < right_s)
 	{
-		if (left[i] <= right[j])
-			temp_array[k++] = left[i++];
+		if (l[i] <= r[j])
+			temp_array[k++] = l[i++];
 		else
-			temp_array[k++] = right[j++];
+			temp_array[k++] = r[j++];
 	}
 
-	while (i < left_size)
-		temp_array[k++] = left[i++];
+	while (i < left_s)
+		temp_array[k++] = l[i++];
 
-	while (j < right_size)
-		temp_array[k++] = right[j++];
+	while (j < right_s)
+		temp_array[k++] = r[j++];
 
-	for (i = 0; i < left_size + right_size; i++)
+	for (i = 0; i < left_s + right_s; i++)
 		array[i] = temp_array[i];
 
 	free(temp_array);
