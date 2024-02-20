@@ -1,64 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "sort.h"
 
 /**
- * merge_sort - Sorts an array of integers in ascending order using Bubble sort
- * @array: The array to be sorted
- * @size: The size of the array
+ * merge_sort - Sorts an array of integers in ascending order using
+ *              the Merge sort algorithm.
+ * @array: Pointer to the array to be sorted
+ * @size: Size of the array
  */
 void merge_sort(int *array, size_t size)
 {
-	size_t m;
+	if (size > 1)
+	{
+		size_t mid = size / 2;
+		int *left = array;
+		int *right = array + mid;
+		size_t left_size = mid;
+		size_t right_size = size - mid;
 
-	if (size <= 1)
-		return;
+		printf("Merging...\n");
+		printf("[left]: ");
+		print_array(left, left_size);
+		printf("[right]: ");
+		print_array(right, right_size);
 
-	m = size / 2;
+		merge_sort(left, left_size);
+		merge_sort(right, right_size);
 
-	merge_sort(array, m);
-	merge_sort(array + m, size - m);
-	merge(array, 0, m, size - 1);
+		merge_arrays(array, left, left_size, right, right_size);
+
+		printf("[Done]: ");
+		print_array(array, size);
+	}
 }
+
 /**
- * merge - Sorts an array of integers in ascending order using Bubble sort
- * @l: The array to be sorted
- * @m: The size of the array
- * @r: The size of the array
+ * merge_arrays - Merges two sorted arrays into one sorted array
+ * @array: Pointer to the resulting array
+ * @left: Pointer to the left array
+ * @left_size: Size of the left array
+ * @right: Pointer to the right array
+ * @right_size: Size of the right array
  */
-void merge(int *array, size_t l, size_t m, size_t r)
+void merge_arrays(int *array, int *left, size_t left_size, int *right, size_t right_size)
 {
-	size_t n1 = m - l + 1;
-	size_t n2 = r - m;
+	size_t i = 0, j = 0, k = 0;
+	int *temp_array = malloc((left_size + right_size) * sizeof(int));
 
-	int *left = (int *)malloc(n1 * sizeof(int));
-	int *right = (int *)malloc(n2 * sizeof(int));
-
-	size_t i = 0, j = 0, k = l;
-
-	for (i = 0; i < n1; i++)
-		left[i] = array[l + i];
-	for (j = 0; j < n2; j++)
-		right[j] = array[m + 1 + j];
-
-	i = 0, j = 0, k = l;
-	
-	while (i < n1 && j < n2)
+	while (i < left_size && j < right_size)
 	{
 		if (left[i] <= right[j])
-		{
-			array[k++] = left[i++];
-		}
+			temp_array[k++] = left[i++];
 		else
-		{
-			array[k++] = right[j++];
-		}
+			temp_array[k++] = right[j++];
 	}
 
-	while (i < n1)
-		array[k++] = left[i++];
-	while (j < n2)
-		array[k++] = right[j++];
+	while (i < left_size)
+		temp_array[k++] = left[i++];
 
-	free(left);
-	free(right);
+	while (j < right_size)
+		temp_array[k++] = right[j++];
+
+	for (i = 0; i < left_size + right_size; i++)
+		array[i] = temp_array[i];
+
+	free(temp_array);
 }
 
