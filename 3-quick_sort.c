@@ -14,14 +14,14 @@ size_t lomuto_partition(int *array, ssize_t low, ssize_t high, int size)
 	int pivot, temp;
 	ssize_t i, j;
 
-	pivot = m;
+	pivot = i;
 	i = low, j = high;
 
 
 	while (true)
 	{
 		while (array[pivot] <= array[j] && pivot != j)
-			j--;
+			i--;
 			if (pivot == j)
 				break;
 		else if (array[pivot] > array[j])
