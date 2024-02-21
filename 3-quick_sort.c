@@ -1,57 +1,69 @@
-#include "deck.h"
+#include "sort.h"
 
 /**
- * compare_cards - Comparison function for qsort
- * @a: Pointer to the first card
- * @b: Pointer to the second card
- * Return: Integer less than, equal to, or greater than zero if a is found,
- * respectively, to be less than, to match, or be greater than b
+ * lomuto_partition - Partitions the array using the Lomuto partition scheme
+ * @array: The array to be partitioned
+ * @low: The low index of the partition
+ * @high: The high index of the partition
+ * @size: The size of the array
+ *
+ * Return: The pivot index
  */
-int compare_cards(const void *a, const void *b)
+size_t lomuto_partition(int *array, ssize_t low, ssize_t high, size_t size)
 {
-    const card_t *card_a = (*(const deck_node_t **)a)->card;
-    const card_t *card_b = (*(const deck_node_t **)b)->card;
+	int pivot, temp;
+	ssize_t i, j;
 
-    int kind_diff = card_a->kind - card_b->kind;
+	pivot = array[high];
+	i = low - 1;
 
-    if (kind_diff == 0)
-        return strcmp(card_a->value, card_b->value);
-    
-    return kind_diff;
+	for (j = low; j < high; j++)
+	{
+		if (array[j] <= pivot)
+		{
+			i++;
+			temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+			print_array(array, size);
+		}
+	}
+	temp = array[i + 1];
+	array[i + 1] = array[high];
+	array[high] = temp;
+	print_array(array, size);
+	return (i + 1);
 }
 
 /**
- * sort_deck - Sorts a deck of cards
- * @deck: Pointer to the head of the deck
+ * quicksort - Recursive function to sort the array using Quick sort
+ * @array: The array to be sorted
+ * @low: The low index of the partition
+ * @high: The high index of the partition
+ * @size: The size of the array
  */
-void sort_deck(deck_node_t **deck)
+void quicksort(int *array, ssize_t low, ssize_t high, size_t size)
 {
-    size_t deck_size = 52;
-    deck_node_t **deck_array = malloc(deck_size * sizeof(deck_node_t *));
-    deck_node_t *current_node;
-    size_t i;
+	size_t pivot;
 
-    if (!deck_array || !deck || !*deck)
-        return;
+	if (low < high)
+	{
+		pivot = lomuto_partition(array, low, high, size);
+		quicksort(array, low, pivot - 1, size);
+		quicksort(array, pivot + 1, high, size);
+	}
+}
 
-    current_node = *deck;
-    for (i = 0; i < deck_size; i++)
-    {
-        deck_array[i] = current_node;
-        current_node = current_node->next;
-    }
+/**
+ * quick_sort - Sorts an array of integers in ascending order using Quick sort
+ * @array: The array to be sorted
+ * @size: The size of the array
+ */
+void quick_sort(int *array, size_t size)
+{
+	if (array == NULL || size <= 1)
+		return;
 
-    qsort(deck_array, deck_size, sizeof(deck_node_t *), compare_cards);
-
-    for (i = 0; i < deck_size - 1; i++)
-    {
-        deck_array[i]->next = deck_array[i + 1];
-        deck_array[i + 1]->prev = deck_array[i];
-    }
-
-    deck_array[deck_size - 1]->next = NULL;
-    *deck = deck_array[0];
-
-    free(deck_array);
+	quicksort(array, 0, size - 1, size);
 }
 
