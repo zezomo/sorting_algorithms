@@ -14,7 +14,7 @@ size_t lomuto_partition(int *array, ssize_t low, ssize_t high, int size)
 	int pivot, temp;
 	ssize_t i, j;
 
-	pivot = i;
+	pivot = m;
 	i = low, j = high;
 
 
