@@ -40,6 +40,7 @@ void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2);
 void merge_sort(int *array, size_t size);
 void merge_arrays(int *array, int *l, size_t left_s, int *r, size_t right_s);
 
-
+int compare_cards(const void *a, const void *b);
+void sort_deck(deck_node_t **deck);
 
 #endif
